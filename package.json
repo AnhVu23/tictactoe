@@ -1,0 +1,68 @@
+{
+	"name": "tictactoe",
+	"version": "1.0.0",
+	"main": "src/index.js",
+	"scripts": {
+		"dev": "ts-node-dev --respawn --ignore-watch node_modules src/index.ts",
+		"start": "node build/index.js",
+		"build": "tsc -p .",
+		"types-check": "tsc",
+		"lint": "tslint --project tsconfig.json",
+		"lint-fix": "tslint --fix -c ./tslint.json 'src/**/*{.ts,.tsx}'",
+		"format": "prettier \"**/*.+(js|json|ts|md|mdx|graphql)\" --write",
+		"test": "NODE_ENV=test nyc --all --reporter=text mocha --full-trace -t 10000 -b --exit -r ts-node/register src/tests/index.ts",
+		"doc": "apidoc -i src/ -o doc/ && open doc/index.html"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged & npm run types-check"
+		}
+	},
+	"lint-staged": {
+		"src/*.ts": "npm run lint",
+		"**/*.+(js|json|ts|md|mdx|graphql)": [
+			"npm run format",
+			"git add ."
+		]
+	},
+	"author": "Anh Vu",
+	"license": "UNLICENSED",
+	"private": true,
+	"dependencies": {
+		"body-parser": "1.18.2",
+		"cors": "2.8.4",
+		"dotenv": "^8.2.0",
+		"express": "4.16.3",
+		"helmet": "3.10.0",
+		"lodash": "^4.17.20",
+		"method-override": "2.3.10",
+		"morgan": "1.9.0",
+		"pg": "^8.5.1",
+		"swagger-jsdoc": "^4.0.0",
+		"swagger-test": "^0.8.0",
+		"swagger-ui-express": "^4.1.4",
+		"ts-node-dev": "1.0.0-pre.26",
+		"typeorm": "^0.2.29",
+		"typescript": "3.5.3",
+		"winston": "^3.3.3"
+	},
+	"devDependencies": {
+		"@types/bcryptjs": "2.4.1",
+		"@types/body-parser": "1.16.8",
+		"@types/express": "4.11.1",
+		"@types/node": "9.6.6",
+		"@types/uuid": "3.4.3",
+		"husky": "^4.3.0",
+		"lint-staged": "^10.4.0",
+		"prettier": "^2.1.2",
+		"ts-node": "6.0.0",
+		"tslint": "5.9.1",
+		"tslint-config-prettier": "^1.18.0",
+		"tslint-plugin-prettier": "^2.3.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:AnhVu23/tictactoe.git"
+	},
+	"description": "tictactoe"
+}

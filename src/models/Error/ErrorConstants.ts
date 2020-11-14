@@ -1,0 +1,27 @@
+/**
+ * Created by Hai Anh on 6/8/20
+ */
+
+// Http status
+export enum HTTP_STATUS {
+	OK = 200,
+	CREATED = 201,
+	NO_CONTENT = 204,
+	BAD_REQUEST = 400,
+	UNAUTHORIZED = 401,
+	FORBIDDEN = 403,
+	NOT_FOUND = 404,
+	CONFLICT = 409,
+	INTERNAL_SERVER_ERROR = 500,
+}
+
+// Error code
+export enum ERROR_CODE {
+	// Common code
+	BAD_REQUEST = 1000,
+	EXISTING_ENTITY = 1001,
+	INVALID_CREDENTIALS = 1002,
+	INVALID_TOKEN = 1003,
+	NO_PERMISSION = 1004,
+	UNAUTHORIZED = 1005,
+}
