@@ -1,12 +1,13 @@
+import * as dotenv from 'dotenv'
+dotenv.config()
 import * as bodyParser from 'body-parser' // pull information from HTML POST (express4)
 import * as cors from 'cors' // Allow cors// log requests to the console (express4)
 import * as express from 'express' // framework
-import {NextFunction, Request, Response} from 'express'
 import * as helmet from 'helmet' // Security
 import * as methodOverride from 'method-override' // simulate DELETE and PUT (express4)
 import * as morgan from 'morgan' // log requests to the console (express4)
 import {router} from './resources'
-import * as dotenv from 'dotenv'
+
 // Doc
 import swagger from './docs/swagger'
 import {errorHandler} from './middlewares/errorHandler'
@@ -31,8 +32,6 @@ const app: express.Application = express()
 /**
  * Env
  */
-
-dotenv.config()
 /**
  * HELMET
  */
