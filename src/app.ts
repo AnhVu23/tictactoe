@@ -13,6 +13,8 @@ import swagger from './docs/swagger'
 import {errorHandler} from './middlewares/errorHandler'
 import {NotFoundError} from './models/Error'
 import {morganStream} from './utils/logger'
+import {createConnection} from 'typeorm'
+import config from './config'
 
 /**
  * Setting environment for development|production
