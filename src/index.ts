@@ -6,13 +6,13 @@ import config from './config'
 const logger = initLogger(module)
 
 createConnection(config.environment)
-    .then(() => {
-        logger.info('Connect to db successfully!')
-    })
-    .catch(e => {
-        console.log(e)
-        logger.error('Db connection error', e.message)
-    })
+	.then(() => {
+		logger.info('Connect to db successfully!')
+	})
+	.catch(e => {
+		console.log(e)
+		logger.error('Db connection error', e.message)
+	})
 
 const server = app.listen(config.port, () => {
 	logger.info(`App is running on port ${config.port}`)

@@ -9,5 +9,5 @@
 import gameRouter from './Game/game.router'
 
 export const router = {
-    gameRouter
+	gameRouter,
 }
