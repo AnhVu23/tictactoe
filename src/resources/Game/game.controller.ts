@@ -23,10 +23,8 @@ const getAll = async (req, res, next) => {
 const createOne = async (req, res, next) => {
 	try {
 		const newGame = await new GameService().createGame(req.body)
-		return res.json({
-			status: 200,
-			data: newGame,
-		})
+		res.setHeader('Location', newGame)
+		return res.status(201).json()
 	} catch (e) {
 		return next(e)
 	}
@@ -46,11 +44,8 @@ const getOne = async (req, res, next) => {
 
 const editOne = async (req, res, next) => {
 	try {
-		const resUrl = await new GameService().editGame(req.param.id, req.body)
-		res.setHeader('Location', resUrl)
-		return res.json({
-			status: 204,
-		})
+		await new GameService().editGame(req.params.id, req.body)
+		return res.status(204).json()
 	} catch (e) {
 		return next(e)
 	}
@@ -59,9 +54,7 @@ const editOne = async (req, res, next) => {
 const deleteOne = async (req, res, next) => {
 	try {
 		await new GameService().deleteGame(req.param.id)
-		return res.json({
-			status: 204,
-		})
+		return res.status(204).json()
 	} catch (e) {
 		return next(e)
 	}

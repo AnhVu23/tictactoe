@@ -24,7 +24,4 @@ export class Game {
 		select: false,
 	})
 	public status: GameStatus
-
-	@Column({select: false})
-	public playerMove: string
 }

@@ -36,6 +36,7 @@
 		"helmet": "3.10.0",
 		"lodash": "^4.17.20",
 		"method-override": "2.3.10",
+		"mocha": "^8.2.1",
 		"morgan": "1.9.0",
 		"pg": "^8.5.1",
 		"swagger-jsdoc": "^4.0.0",

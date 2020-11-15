@@ -47,8 +47,11 @@ export class GameService {
 
 	public editGame = async (id: number, body: Partial<Game>) => {
 		try {
-			await this.checkExist(id)
-			const editedGame = this.editRunningBoard(body.board)
+			const currentGame = await this.getOneWithStatus(id)
+			if (currentGame.status !== GameStatus.RUNNING) {
+				throw new BadRequestError('Game ended')
+			}
+			const editedGame = this.editRunningBoard(body.board, currentGame.board)
 			await this.Game.update(id, editedGame)
 		} catch (e) {
 			throw e
@@ -79,6 +82,21 @@ export class GameService {
 	private checkExist = async (id: number): Promise<Game> => {
 		try {
 			const foundGame = await this.getOne(id)
+			if (!foundGame) {
+				throw new NotFoundError(`Can't find game`)
+			}
+			return foundGame
+		} catch (e) {
+			throw e
+		}
+	}
+
+	private getOneWithStatus = async (id: number): Promise<Game> => {
+		try {
+			const foundGame = await this.Game.createQueryBuilder('g')
+				.addSelect('g.status')
+				.where('g.id = :id', {id})
+				.getOne()
 			if (!foundGame) {
 				throw new NotFoundError(`Can't find game`)
 			}
@@ -121,14 +139,18 @@ export class GameService {
 				'Start board should have more than 8 empty spots',
 			)
 		} else if (emptySpots === 8) {
-			const moveChar = board.indexOf('X') > -1 ? 'X' : 'O'
+			const moveChar = board.indexOf('X') > -1 ? 'O' : 'X'
 			return this.makeMove(board, moveChar)
 		} else {
-			return board
+			return this.makeMove(board, 'X')
 		}
 	}
 
-	private editRunningBoard = (board: string): Partial<Game> => {
+	private editRunningBoard = (
+		board: string,
+		currentBoard: string,
+	): Partial<Game> => {
+		this.validateMove(board, currentBoard)
 		let boardArray: string[][] = this.transformBoardToArray(board)
 		const xCount = this.findStringCount(board, 'X').length
 		const oCount = this.findStringCount(board, 'O').length
@@ -136,23 +158,24 @@ export class GameService {
 			status: GameStatus.RUNNING,
 			board,
 		}
+		const nextMove = xCount > oCount ? 'O' : 'X'
 		if (xCount + oCount < 4) {
-			editedGame.board = this.makeMove(board, xCount > oCount ? 'O' : 'X')
+			editedGame.board = this.makeMove(board, nextMove)
 		} else if (xCount + oCount === 4) {
-			editedGame.board = this.makeMove(board, xCount > oCount ? 'O' : 'X')
+			editedGame.board = this.makeMove(board, nextMove)
 			boardArray = this.transformBoardToArray(editedGame.board)
 			editedGame.status = this.validateBoard(boardArray)
 		} else if (xCount + oCount < 8) {
 			editedGame.status = this.validateBoard(boardArray)
 			if (editedGame.status === GameStatus.RUNNING) {
-				editedGame.board = this.makeMove(board, xCount > oCount ? 'O' : 'X')
+				editedGame.board = this.makeMove(board, nextMove)
 				boardArray = this.transformBoardToArray(editedGame.board)
 				editedGame.status = this.validateBoard(boardArray)
 			}
 		} else {
 			editedGame.status = this.validateBoard(boardArray)
 			if (editedGame.status === GameStatus.RUNNING) {
-				editedGame.board = this.makeMove(board, xCount > oCount ? 'O' : 'X')
+				editedGame.board = this.makeMove(board, nextMove)
 				boardArray = this.transformBoardToArray(editedGame.board)
 				const finalGameStatus = this.validateBoard(boardArray)
 				editedGame.status =
@@ -165,12 +188,13 @@ export class GameService {
 	}
 
 	private checkRow = (board: string[][]): string | null => {
+		let result = null
 		board.forEach(row => {
 			if (new Set(row).size === 1 && row[0] !== '-') {
-				return row[0]
+				result = row[0]
 			}
 		})
-		return null
+		return result
 	}
 
 	private checkColumn = (board: string[][]) => {
@@ -208,7 +232,8 @@ export class GameService {
 	private makeMove = (board: string, move: string): string => {
 		const emptySpotPos = this.findStringCount(board, '-')
 		// Make the random move by filling the empty space
-		const movePos = emptySpotPos[Math.random() * emptySpotPos.length - 1]
+		const movePos =
+			emptySpotPos[Math.floor(Math.random() * emptySpotPos.length)]
 		board = board.substring(0, movePos) + move + board.substring(movePos + 1)
 		return board
 	}
@@ -217,7 +242,7 @@ export class GameService {
 		const spotPos = []
 		let startIndex = 0
 		while (board.indexOf(str, startIndex) > -1) {
-			const foundIndex = board.indexOf(str)
+			const foundIndex = board.indexOf(str, startIndex)
 			spotPos.push(foundIndex)
 			// The next start index should be equal to found index + string length
 			startIndex = foundIndex + str.length
@@ -226,7 +251,7 @@ export class GameService {
 	}
 
 	private validateBoard = (boardArray: string[][]): GameStatus => {
-		for (let result in [
+		for (let result of [
 			this.checkRow(boardArray),
 			this.checkColumn(boardArray),
 			this.checkDiagonal(boardArray),
@@ -239,10 +264,30 @@ export class GameService {
 	}
 
 	private transformBoardToArray = (board: string): string[][] => {
-		return [...Array(this.boardSize)].map(row =>
-			Array(this.boardSize).map(col => {
-				return board.charAt(row * this.boardSize + col)
-			}),
+		const boardArray = [...Array(this.boardSize)].map(
+			row => new Array(this.boardSize),
 		)
+		for (let i = 0; i < this.boardSize; i++) {
+			for (let j = 0; j < this.boardSize; j++) {
+				boardArray[i][j] = board.charAt(i * this.boardSize + j)
+			}
+		}
+		return boardArray
+	}
+
+	private validateMove = (next: string, origin: string) => {
+		let totalDiff = 0
+		for (let i = 0; i < next.length; i++) {
+			if (next.charAt(i) !== origin.charAt(i)) {
+				if (origin.charAt(i) === '-') {
+					totalDiff += 1
+				} else {
+					throw new BadRequestError('Invalid move')
+				}
+			}
+		}
+		if (totalDiff > 1) {
+			throw new BadRequestError(`Invalid board. The board has been modified`)
+		}
 	}
 }
