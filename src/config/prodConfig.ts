@@ -1,10 +1,11 @@
 /**
- * Production Config
- *
- * @author Anh Vu <anh.vu@vertics.co>
- *
- * @copyright Vertics Oy 2020
- */
+  *
+  * Production config
+  *
+  * @author Anh Vu <vu.haianh291@gmail.com>
+  *
+  * @copyright Anh Vu
+  */
 
 export default {
 	loggerLevel: 'debug',

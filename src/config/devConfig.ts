@@ -1,9 +1,10 @@
 /**
- * Dev config
  *
- * @author Anh Vu <anh.vu@vertics.co>
+ * Production config
  *
- * @copyright Vertics Oy 2020
+ * @author Anh Vu <vu.haianh291@gmail.com>
+ *
+ * @copyright Anh Vu
  */
 
 export default {

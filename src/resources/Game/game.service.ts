@@ -1,4 +1,3 @@
-'use strict'
 /**
  *
  * Game service
@@ -15,13 +14,12 @@ import {NotFoundError} from '../../models/Error'
 /**
  * Reason not to
  */
-export class GameService extends Connection {
+export class GameService {
 	private Game: Repository<Game>
 	private conn: Connection
 	private readonly allowKeys = ['board']
 
-	constructor(args) {
-		super(args)
+	constructor() {
 		this.conn = getConnection(config.environment)
 		this.Game = this.conn.getRepository(Game)
 	}
@@ -34,11 +32,11 @@ export class GameService extends Connection {
 		}
 	}
 
-	public createGame = async (body: Partial<Game>): Promise<Game> => {
+	public createGame = async (body: Partial<Game>): Promise<string> => {
 		try {
 			const newGame = this.initEntity(body)
 			const insertRes: InsertResult = await this.Game.insert(newGame)
-			return this.getSingleGame(insertRes.identifiers[0].id)
+			return `/api/v1/games/${insertRes.identifiers[0].id}`
 		} catch (e) {
 			throw e
 		}
