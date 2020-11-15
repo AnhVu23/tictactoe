@@ -12,7 +12,6 @@ const getAll = async (req, res, next) => {
 	try {
 		const allGames = await new GameService().getAllGames()
 		return res.json({
-			status: 200,
 			data: allGames,
 		})
 	} catch (e) {
@@ -34,7 +33,6 @@ const getOne = async (req, res, next) => {
 	try {
 		const foundGame = await new GameService().getSingleGame(req.param.id)
 		return res.json({
-			status: 200,
 			data: foundGame,
 		})
 	} catch (e) {

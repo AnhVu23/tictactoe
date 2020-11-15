@@ -47,7 +47,7 @@ export class GameService {
 
 	public editGame = async (id: number, body: Partial<Game>) => {
 		try {
-			const currentGame = await this.getOneWithStatus(id)
+			const currentGame = await this.checkExist(id)
 			if (currentGame.status !== GameStatus.RUNNING) {
 				throw new BadRequestError('Game ended')
 			}
@@ -79,24 +79,13 @@ export class GameService {
 		return Object.assign(new Game(), data)
 	}
 
+    /**
+	 * Check if game exists. If yes, return game entity.
+     * @param id
+     */
 	private checkExist = async (id: number): Promise<Game> => {
 		try {
 			const foundGame = await this.getOne(id)
-			if (!foundGame) {
-				throw new NotFoundError(`Can't find game`)
-			}
-			return foundGame
-		} catch (e) {
-			throw e
-		}
-	}
-
-	private getOneWithStatus = async (id: number): Promise<Game> => {
-		try {
-			const foundGame = await this.Game.createQueryBuilder('g')
-				.addSelect('g.status')
-				.where('g.id = :id', {id})
-				.getOne()
 			if (!foundGame) {
 				throw new NotFoundError(`Can't find game`)
 			}

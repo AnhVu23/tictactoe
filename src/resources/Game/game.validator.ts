@@ -18,5 +18,8 @@ export const validateGameBody = (req, res, next) => {
 	if (req.body.board.length !== 9) {
 		throw new BadRequestError('Board must include 9 characters')
 	}
+	if (req.body.status != null) {
+		throw new BadRequestError(`You can't edit status`)
+	}
 	next()
 }
