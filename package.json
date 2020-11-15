@@ -10,7 +10,7 @@
 		"lint": "tslint --project tsconfig.json",
 		"lint-fix": "tslint --fix -c ./tslint.json 'src/**/*{.ts,.tsx}'",
 		"format": "prettier \"**/*.+(js|json|ts|md|mdx|graphql)\" --write",
-		"test": "NODE_ENV=test nyc --all --reporter=text mocha --full-trace -t 10000 -b --exit -r ts-node/register src/tests/index.ts",
+		"test": "NODE_ENV=test mocha -r ts-node/register src/test/**/**/*.ts",
 		"doc": "apidoc -i src/ -o doc/ && open doc/index.html"
 	},
 	"husky": {
@@ -36,7 +36,6 @@
 		"helmet": "3.10.0",
 		"lodash": "^4.17.20",
 		"method-override": "2.3.10",
-		"mocha": "^8.2.1",
 		"morgan": "1.9.0",
 		"pg": "^8.5.1",
 		"swagger-jsdoc": "^4.0.0",

@@ -7,14 +7,11 @@ import * as helmet from 'helmet' // Security
 import * as methodOverride from 'method-override' // simulate DELETE and PUT (express4)
 import * as morgan from 'morgan' // log requests to the console (express4)
 import {router} from './resources'
+import * as swaggerUi from 'swagger-ui-express'
 
 // Doc
-import swagger from './docs/swagger'
 import {errorHandler} from './middlewares/errorHandler'
-import {NotFoundError} from './models/Error'
 import {morganStream} from './utils/logger'
-import {createConnection} from 'typeorm'
-import config from './config'
 
 /**
  * Setting environment for development|production
@@ -68,7 +65,9 @@ app.use('/api/v1/games', router.gameRouter)
 /**
  * Swagger Documentation
  */
-// app.use('/api-docs', swagger.serve, swagger.setup)
+const swaggerSpec = require('./docs/swagger.json')
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 app.use(errorHandler)
 

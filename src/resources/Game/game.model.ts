@@ -20,7 +20,7 @@ export class Game {
 	@Column({
 		type: 'enum',
 		enum: GameStatus,
-		default: GameStatus.RUNNING
+		default: GameStatus.RUNNING,
 	})
 	public status: GameStatus
 }

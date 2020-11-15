@@ -79,10 +79,10 @@ export class GameService {
 		return Object.assign(new Game(), data)
 	}
 
-    /**
+	/**
 	 * Check if game exists. If yes, return game entity.
-     * @param id
-     */
+	 * @param id
+	 */
 	private checkExist = async (id: number): Promise<Game> => {
 		try {
 			const foundGame = await this.getOne(id)
