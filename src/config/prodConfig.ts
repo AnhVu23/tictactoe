@@ -1,11 +1,11 @@
 /**
-  *
-  * Production config
-  *
-  * @author Anh Vu <vu.haianh291@gmail.com>
-  *
-  * @copyright Anh Vu
-  */
+ *
+ * Production config
+ *
+ * @author Anh Vu <vu.haianh291@gmail.com>
+ *
+ * @copyright Anh Vu
+ */
 
 export default {
 	loggerLevel: 'debug',

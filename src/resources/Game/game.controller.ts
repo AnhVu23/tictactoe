@@ -47,7 +47,7 @@ const getOne = async (req, res, next) => {
 const editOne = async (req, res, next) => {
 	try {
 		const resUrl = await new GameService().editGame(req.param.id, req.body)
-        res.setHeader('Location', resUrl)
+		res.setHeader('Location', resUrl)
 		return res.json({
 			status: 204,
 		})
