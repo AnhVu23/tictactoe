@@ -31,7 +31,7 @@ const createOne = async (req, res, next) => {
 
 const getOne = async (req, res, next) => {
 	try {
-		const foundGame = await new GameService().getSingleGame(req.param.id)
+		const foundGame = await new GameService().getSingleGame(req.params.id)
 		return res.json({
 			data: foundGame,
 		})
@@ -51,7 +51,7 @@ const editOne = async (req, res, next) => {
 
 const deleteOne = async (req, res, next) => {
 	try {
-		await new GameService().deleteGame(req.param.id)
+		await new GameService().deleteGame(req.params.id)
 		return res.status(204).json()
 	} catch (e) {
 		return next(e)
