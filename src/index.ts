@@ -4,8 +4,7 @@ import {createConnection} from 'typeorm'
 import config from './config'
 
 const logger = initLogger(module)
-
-createConnection(config.environment)
+createConnection()
 	.then(() => {
 		logger.info('Connect to db successfully!')
 	})

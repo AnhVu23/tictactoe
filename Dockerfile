@@ -1,10 +1,12 @@
-FROM node:10-alpine
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
-WORKDIR /home/node/app
-copy package*.json ./
-USER node
+FROM node:10.13.0-alpine
+# Set the working directory for the container
+WORKDIR /usr/src/app
+# Copy package.json
+COPY package.json .
+COPY .env .
+RUN apk add --no-cache bash
+
 RUN npm install
-COPY --chown=node:node . .
-EXPOSE 8080
-CMD ["node", "app.js"]
+ADD . /usr/src/app
+
 

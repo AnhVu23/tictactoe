@@ -1,0 +1,36 @@
+version: "3"
+services:
+  tictactoe:
+    build: .
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
+    ports:
+      - 8080:3000
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: bash -c "npm run dev"
+  postgres:
+    image: postgres:9.6-alpine
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: tictactoe
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - database-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  pgadmin:
+    image: chorss/docker-pgadmin4
+    ports:
+      - 5050:5050
+volumes:
+  database-data: {}

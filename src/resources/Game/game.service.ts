@@ -7,7 +7,6 @@
  * @copyright Anh Vu
  */
 import {Connection, getConnection, InsertResult, Repository} from 'typeorm'
-import config from '../../config'
 import {Game} from './game.model'
 import {BadRequestError, NotFoundError} from '../../models/Error'
 import {GameStatus} from '../../utils/enum'
@@ -21,7 +20,7 @@ export class GameService {
 	private readonly allowKeys = ['board']
 
 	constructor() {
-		this.conn = getConnection(config.environment)
+		this.conn = getConnection()
 		this.Game = this.conn.getRepository(Game)
 		this.boardSize = 3
 	}

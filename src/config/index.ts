@@ -16,12 +16,10 @@ const baseConfig = {
 	isDev: env === 'development',
 	isProd: env === 'production',
 	port: process.env.PORT || 3000,
-	dbUrl: process.env.DATABASE_URL,
 	requestLimiter: {
 		timeLimit: 15 * 60 * 1000, // 15 minutes
 		amountLimit: 100, // limit each IP to 100 requests per windowMs
 	},
-	environment: process.env.ENVIRONMENT,
 }
 
 let envConfig
