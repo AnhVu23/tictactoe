@@ -148,10 +148,12 @@ export class GameService {
 			board,
 		}
 		const nextMove = xCount > oCount ? 'O' : 'X'
+		// Player and computer can't win until the total moves is bigger or equal to 5.
 		if (xCount + oCount < 4) {
 			editedGame.board = this.makeMove(board, nextMove)
 		} else if (xCount + oCount === 4) {
 			editedGame.board = this.makeMove(board, nextMove)
+			// Always validate the board again after making move when the total moves is equal or bigger than 5
 			boardArray = this.transformBoardToArray(editedGame.board)
 			editedGame.status = this.validateBoard(boardArray)
 		} else if (xCount + oCount < 8) {
@@ -203,7 +205,7 @@ export class GameService {
 	}
 
 	/**
-	 * Transform the array 90 degree
+	 * Transform the array 90 degree.
 	 * @param board
 	 */
 	private transpose = (board: string[][]): string[][] => {
