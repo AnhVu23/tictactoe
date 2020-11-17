@@ -1,5 +1,7 @@
 # Tictactoe
 
+Live version: https://tiktaktoe2901.herokuapp.com/
+Documentation: https://tiktaktoe2901.herokuapp.com/api-docs
 
 ## Features
 - **PvC tictactoe:** Playing tictactoe in 3x3 dimens with computer
