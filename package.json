@@ -45,7 +45,8 @@
 		"ts-node-dev": "1.0.0-pre.26",
 		"typeorm": "^0.2.29",
 		"typescript": "3.5.3",
-		"winston": "^3.3.3"
+		"winston": "^3.3.3",
+		"yamljs": "^0.3.0"
 	},
 	"devDependencies": {
 		"@types/body-parser": "1.16.8",

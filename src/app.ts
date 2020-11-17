@@ -1,5 +1,4 @@
 import * as dotenv from 'dotenv'
-dotenv.config()
 import * as bodyParser from 'body-parser' // pull information from HTML POST (express4)
 import * as cors from 'cors' // Allow cors// log requests to the console (express4)
 import * as express from 'express' // framework
@@ -8,10 +7,13 @@ import * as methodOverride from 'method-override' // simulate DELETE and PUT (ex
 import * as morgan from 'morgan' // log requests to the console (express4)
 import {router} from './resources'
 import * as swaggerUi from 'swagger-ui-express'
-
+import * as YAML from 'yamljs'
+import * as path from 'path'
 // Doc
 import {errorHandler} from './middlewares/errorHandler'
 import {morganStream} from './utils/logger'
+
+dotenv.config()
 
 /**
  * Setting environment for development|production
@@ -65,8 +67,7 @@ app.use('/api/v1/games', router.gameRouter)
 /**
  * Swagger Documentation
  */
-const swaggerSpec = require('./docs/swagger.json')
-
+const swaggerSpec = YAML.load(path.join(__dirname + '/docs/swagger.yaml'))
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 app.use(errorHandler)
