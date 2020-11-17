@@ -9,7 +9,6 @@ createConnection()
 		logger.info('Connect to db successfully!')
 	})
 	.catch(e => {
-		console.log(e)
 		logger.error('Db connection error', e.message)
 	})
 
