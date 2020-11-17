@@ -1,39 +1,43 @@
-# POKKA
+# Tictactoe
 
-##Installation
 
-1. Install [yarn](https://yarnpkg.com/en/) by `brew install yarn`
-2. Install postgresql
-    * `brew install postgresql`
-    * `start postgresql`
-3. Create Database
-    * `createdb pokka-dev` and `createdb pokka-production` (or what's configured in ormconfig.json)
-    * If you face problems with database connection when running, try your unix username as database username. Password might also be "postgres"
-4. Add global requirements by `yarn global add ts-node typeorm tsc` (node bundled with typescript transpiler, typeorm and typescript transpiler)
-5. Run `yarn install && yarn run start`
+## Features
+- **PvC tictactoe:** Playing tictactoe in 3x3 dimens with computer
+- **Multiple games:** Playing multiple games at the same time
+- **Game history:** All games will be saved.
+- **Delete game** Don't want to save your game? Remove it from your history
 
-## Core technologies
+## Upcoming feature
 
-Roughly knowing what are the capabilities and roles of each is mandatory for understanding and developing the software
+- **PvP tictactoe**
+- **Bigger dimensions**
 
-* [Node](https://nodejs.org)
-* [PostgreSQL](https://www.postgresql.org) Database
-* [TypeORM](https://typeorm.io) ORM
-* [rounting-controllers](https://github.com/typestack/routing-controllers) simplifying [Express](http://expressjs.com) routings with decorators
-  * [socket-controllers](https://github.com/typestack/socket-controllers) Handlind websockets
-* [Typescript](http://www.typescriptlang.org)
-* [class-transformer](https://github.com/typestack/class-transformer)
+## Installation
 
-See package.json for more.
+- Clone the app: `git clone git@github.com:AnhVu23/tictactoe.git`
+- Create an .env file (Check the sample.env for detailed information)
+- For Linux, you can run `yarn docker-compose` or `npm run docker-compose` to run the app. It will create a Postgres database and a pgadmin browser.
+- For MacOS and Window, run `yarn install` or `npm install` to install dependencies. Then `yarn dev` or `npm run dev` to start local server.
 
-### Tests
+## Technology
 
-TBW/TODO
+- **NodeJS and Express**
+- **REST API**
+- **PostgreSQL**
+- **Typeorm**: Object-relational mapping for Typescript
+- **Docker**
+- **Swagger**
+- **Code formatter**: tslint, prettier and husky.
 
-### Production
 
-TBW
+## Architecture: MVC
 
-###TODO
+**MVC** stands for Model, View, Controller.
 
-- ts-node-dev
+**Model:** This holds the data of the application. It cannot directly talk to the View. Generally, it’s recommended to expose the data to the Controller.
+
+**View:** It represents the UI (REST API) of the application devoid of any Application Logic.
+
+**Controller:** It acts as an interface between the Model and the View.
+
+![Login](https://miro.medium.com/proxy/0*Qf1s2lG86MjX-Zcv.jpg)
