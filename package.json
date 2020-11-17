@@ -11,7 +11,8 @@
 		"lint-fix": "tslint --fix -c ./tslint.json 'src/**/*{.ts,.tsx}'",
 		"format": "prettier \"**/*.+(js|json|ts|md|mdx|graphql)\" --write",
 		"test": "NODE_ENV=test mocha -r ts-node/register src/test/**/**/*.ts",
-		"doc": "apidoc -i src/ -o doc/ && open doc/index.html"
+		"doc": "apidoc -i src/ -o doc/ && open doc/index.html",
+		"docker-compose": "docker-compose up --build"
 	},
 	"husky": {
 		"hooks": {
