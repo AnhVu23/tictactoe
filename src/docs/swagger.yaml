@@ -8,10 +8,6 @@ produces:
 info:
   version: "1.0.1"
   title: "Tic-tac-toe"
-  contact:
-    url: "https://www.ssh.com"
-  license:
-    name: "All rights reserved SSH Communications Security Ltd"
 
 schemes:
   - http
